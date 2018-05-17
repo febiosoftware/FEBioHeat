@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\FEBioHeat\FEBioHeat.cpp" />
     <ClCompile Include="..\..\FEBioHeat\FEConvectiveHeatFlux.cpp" />
+    <ClCompile Include="..\..\FEBioHeat\FEGapHeatFlux.cpp" />
     <ClCompile Include="..\..\FEBioHeat\FEHeatDomainFactory.cpp" />
     <ClCompile Include="..\..\FEBioHeat\FEHeatFlux.cpp" />
     <ClCompile Include="..\..\FEBioHeat\FEHeatSolidDomain.cpp" />
@@ -154,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\FEBioHeat\FEConvectiveHeatFlux.h" />
+    <ClInclude Include="..\..\FEBioHeat\FEGapHeatFlux.h" />
     <ClInclude Include="..\..\FEBioHeat\FEHeatDomainFactory.h" />
     <ClInclude Include="..\..\FEBioHeat\FEHeatFlux.h" />
     <ClInclude Include="..\..\FEBioHeat\FEHeatSolidDomain.h" />

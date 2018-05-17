@@ -1,6 +1,7 @@
 #include "FEHeatSolver.h"
 #include "FEHeatFlux.h"
 #include "FEConvectiveHeatFlux.h"
+#include "FEGapHeatFlux.h"
 #include "FEHeatTransferMaterial.h"
 #include "FEHeatSource.h"
 #include "FECore/FEModel.h"
@@ -187,6 +188,13 @@ bool FEHeatSolver::StiffnessMatrix(FELinearSystem& LS)
 	{
 		FEConvectiveHeatFlux* pbc = dynamic_cast<FEConvectiveHeatFlux*>(m_fem.SurfaceLoad(i));
 		if (pbc && pbc->IsActive()) pbc->StiffnessMatrix(LS, tp);
+	}
+
+	// add contact gap fluxes
+	for (int i=0; i<m_fem.SurfacePairConstraints(); ++i)
+	{
+		FEGapHeatFlux* pci = dynamic_cast<FEGapHeatFlux*>(m_fem.SurfacePairConstraint(i));
+		if (pci && pci->IsActive()) pci->StiffnessMatrix(LS, tp);
 	}
 
 	return true;
