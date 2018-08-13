@@ -11,6 +11,8 @@ Global
 		Debug Dll|x64 = Debug Dll|x64
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
+		FEBio Release|Win32 = FEBio Release|Win32
+		FEBio Release|x64 = FEBio Release|x64
 		Release Dll|Win32 = Release Dll|Win32
 		Release Dll|x64 = Release Dll|x64
 		Release OMP|Win32 = Release OMP|Win32
@@ -27,6 +29,10 @@ Global
 		{8EEC9413-AC26-4F1E-8966-B0FEB4C05637}.Debug|Win32.Build.0 = Debug|Win32
 		{8EEC9413-AC26-4F1E-8966-B0FEB4C05637}.Debug|x64.ActiveCfg = Debug|x64
 		{8EEC9413-AC26-4F1E-8966-B0FEB4C05637}.Debug|x64.Build.0 = Debug|x64
+		{8EEC9413-AC26-4F1E-8966-B0FEB4C05637}.FEBio Release|Win32.ActiveCfg = FEBio Release|Win32
+		{8EEC9413-AC26-4F1E-8966-B0FEB4C05637}.FEBio Release|Win32.Build.0 = FEBio Release|Win32
+		{8EEC9413-AC26-4F1E-8966-B0FEB4C05637}.FEBio Release|x64.ActiveCfg = FEBio Release|x64
+		{8EEC9413-AC26-4F1E-8966-B0FEB4C05637}.FEBio Release|x64.Build.0 = FEBio Release|x64
 		{8EEC9413-AC26-4F1E-8966-B0FEB4C05637}.Release Dll|Win32.ActiveCfg = Release Dl|Win32
 		{8EEC9413-AC26-4F1E-8966-B0FEB4C05637}.Release Dll|Win32.Build.0 = Release Dl|Win32
 		{8EEC9413-AC26-4F1E-8966-B0FEB4C05637}.Release Dll|x64.ActiveCfg = Release Dl|x64
