@@ -34,13 +34,13 @@ public:
 	FEHeatSolidDomain(FEModel* pfem);
 
 	//! get the material (overridden from FEDomain)
-	FEMaterial* GetMaterial() { return m_pMat; }
+	FEMaterial* GetMaterial() override { return m_pMat; }
 
 	//! set the material
-	void SetMaterial(FEMaterial* pmat);
+	void SetMaterial(FEMaterial* pmat) override;
 
 	//! Update state data
-	void Update(const FETimeInfo& tp);
+	void Update(const FETimeInfo& tp) override;
 
 public: // overloaded from FEHeatDomain
 
