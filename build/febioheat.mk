@@ -17,11 +17,13 @@ FEBIOLIBS = $(NUMCORE) $(FECORE) $(FEBIOMECH)
 
 $(LIB): $(OBJ)
 ifeq ($(findstring lnx,$(PLAT)),lnx)
-		$(CC) $(LNKFLG) -shared -Wl,-soname,$(SO) -o $(LIB) $(OBJ) $(FEBIOLIBS) $(INTEL_LIB)libiomp5.a
+		$(CC) $(LNKFLG) -shared -Wl,-soname,$(SO) -o $(LIB) $(OBJ) $(FEBIOLIBS) $(INTEL_LIB) -liomp5
 else ifeq ($(findstring gcc,$(PLAT)),gcc)
-		$(CC) $(LNKFLG) -shared -Wl,-soname,$(SO) -o $(LIB) $(OBJ) $(FEBIOLIBS) $(INTEL_LIB)libiomp5.a
+		$(CC) $(LNKFLG) -shared -Wl,-soname,$(SO) -o $(LIB) $(OBJ) $(FEBIOLIBS)
+else ifeq ($(findstring osx,$(PLAT)),osx)
+		$(CC) -install_name @rpath/lib$(PLGN).dylib -dynamiclib $(FLG) -o $(LIB) $(OBJ) $(FEBIOLIBS) $(INTEL_LIB) -liomp5
 else
-		$(CC) -dynamiclib $(FLG) -o $(LIB) $(OBJ) $(FEBIOLIBS) $(INTEL_LIB)libiomp5.a
+		$(CC) -dynamiclib $(FLG) -o $(LIB) $(OBJ) $(FEBIOLIBS) $(INTEL_LIB) -liomp5
 endif
 
 %.o: $(FCDIR)$(THIS)/%.cpp

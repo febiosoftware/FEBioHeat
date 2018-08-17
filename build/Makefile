@@ -6,14 +6,14 @@ export PLGN = febioheat
 # Comment out the previous line and uncomment the next line if you are using the sdk on Linux.
 # FEBINC = $(HOME)/FEBio2
 # Or uncomment the next line if you are using OSX.
-FEBINC = /Applications/FEBio2.8.0/sdk/include
+FEBINC = /Applications/FEBio2.8.2/sdk/include
 
 # This needs to be set in order to find the febio library files.
 # FEBLIB = $(HOME)/FEBio2/build/lib
 # Comment out the previous line and uncomment the next line if you are using the sdk on Linux.
 # FEBLIB = $(HOME)/FEBio2/build/lib
 # Or uncomment the next line if you are using OSX.
-FEBLIB = /Applications/FEBio2.8.0/sdk/lib
+FEBLIB = /Applications/FEBio2.8.2/sdk/lib
 
 lnx64: PLAT = lnx64
 lnx64d: PLAT = lnx64d
@@ -43,7 +43,7 @@ export INTELROOT = $(subst /mkl,,$(MKLROOT))
 export LNKFLG = -static-intel
 
 export INC = -I$(FEBINC)
-export INTEL_LIB = $(INTELROOT)/compiler/lib/
+export INTEL_LIB = -L$(INTELROOT)/compiler/lib/
 
 lnx64 lnx64d lnx32 gcc gcc64:
 	( mkdir -p $(PLAT); cd $(PLAT); $(MAKE) -f ../$(PLGN).mk SFX="so" )
