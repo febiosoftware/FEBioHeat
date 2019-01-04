@@ -3,7 +3,7 @@
 #include <FECore/FEGlobalMatrix.h>
 #include <FECore/FEClosestPointProjection.h>
 
-FEGapHeatFluxSurface::FEGapHeatFluxSurface(FEModel* fem) : FESurface(&fem->GetMesh()), m_fem(fem)
+FEGapHeatFluxSurface::FEGapHeatFluxSurface(FEModel* fem) : FESurface(fem)
 {
 	m_dofT = -1;
 }
@@ -24,7 +24,8 @@ bool FEGapHeatFluxSurface::Init()
 		m_Data[i].resize(nint);
 	}
 
-	DOFS& dofs = m_fem->GetDOFS();
+	FEModel& fem = *GetFEModel();
+	DOFS& dofs = fem.GetDOFS();
 	m_dofT = dofs.GetDOF("T");
 
 	return true;
@@ -46,10 +47,10 @@ void FEGapHeatFluxSurface::UnpackLM(FEElement& el, vector<int>& lm)
 
 //=================================================================================================
 
-BEGIN_PARAMETER_LIST(FEGapHeatFlux, FESurfacePairConstraint)
-	ADD_PARAMETER(m_hc  , FE_PARAM_DOUBLE, "hc");
-	ADD_PARAMETER(m_stol, FE_PARAM_DOUBLE, "search_tol");
-END_PARAMETER_LIST();
+BEGIN_FECORE_CLASS(FEGapHeatFlux, FESurfacePairConstraint)
+	ADD_PARAMETER(m_hc  , "hc");
+	ADD_PARAMETER(m_stol, "search_tol");
+END_FECORE_CLASS();
 
 FEGapHeatFlux::FEGapHeatFlux(FEModel* fem) : FESurfacePairConstraint(fem), m_ms(fem), m_ss(fem)
 {

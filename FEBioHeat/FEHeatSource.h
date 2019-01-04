@@ -15,6 +15,8 @@ public:
 	//! constructor
 	FEHeatSource(FEModel* pfem);
 
+	void Residual(const FETimeInfo& tp, FEGlobalVector& R);
+
 public:
 	virtual double value(FEMaterialPoint& mp) = 0;
 };
@@ -30,5 +32,5 @@ public:
 private:
 	double	m_Q;	// source value
 
-	DECLARE_PARAMETER_LIST();
+	DECLARE_FECORE_CLASS();
 };

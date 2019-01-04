@@ -24,5 +24,5 @@ protected:
 	double	m_flux;	//!< heat flux
 	FESurfaceMap	m_FC;
 
-	DECLARE_PARAMETER_LIST();
+	DECLARE_FECORE_CLASS();
 };

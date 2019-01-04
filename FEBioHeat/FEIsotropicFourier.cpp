@@ -2,11 +2,11 @@
 
 //-----------------------------------------------------------------------------
 // define the parameter list
-BEGIN_PARAMETER_LIST(FEIsotropicFourier, FEMaterial)
-	ADD_PARAMETER2(m_k  , FE_PARAM_DOUBLE, FE_RANGE_GREATER(0.0), "k");
-	ADD_PARAMETER2(m_c  , FE_PARAM_DOUBLE, FE_RANGE_GREATER(0.0), "c");
-	ADD_PARAMETER2(m_rho, FE_PARAM_DOUBLE, FE_RANGE_GREATER(0.0), "density");
-END_PARAMETER_LIST();
+BEGIN_FECORE_CLASS(FEIsotropicFourier, FEMaterial)
+	ADD_PARAMETER(m_k  , FE_RANGE_GREATER(0.0), "k");
+	ADD_PARAMETER(m_c  , FE_RANGE_GREATER(0.0), "c");
+	ADD_PARAMETER(m_rho, FE_RANGE_GREATER(0.0), "density");
+END_FECORE_CLASS();
 
 //-----------------------------------------------------------------------------
 mat3ds FEIsotropicFourier::Conductivity(FEMaterialPoint& mp)

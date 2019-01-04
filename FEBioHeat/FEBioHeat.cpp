@@ -19,16 +19,16 @@ FECORE_PLUGIN void PluginInitialize(FECoreKernel& fecore)
 
 	// Domain factory
 	fecore.RegisterDomain(new FEHeatDomainFactory);
-	REGISTER_FECORE_CLASS(FEHeatSolidDomain, FEDOMAIN_ID, "heat-solid");
+	REGISTER_FECORE_CLASS(FEHeatSolidDomain, "heat-solid");
 
 	// feature classes
-	REGISTER_FECORE_CLASS(FEHeatSolver        , FESOLVER_ID                , "heat");
-	REGISTER_FECORE_CLASS(FEIsotropicFourier  , FEMATERIAL_ID              , "isotropic Fourier");
-	REGISTER_FECORE_CLASS(FEConstHeatSource   , FEBODYLOAD_ID              , "heat_source");
-	REGISTER_FECORE_CLASS(FEHeatFlux          , FESURFACELOAD_ID           , "heatflux");
-	REGISTER_FECORE_CLASS(FEConvectiveHeatFlux, FESURFACELOAD_ID           , "convective_heatflux");
-	REGISTER_FECORE_CLASS(FEPlotHeatFlux      , FEPLOTDATA_ID              , "heat flux");
-	REGISTER_FECORE_CLASS(FEGapHeatFlux       , FESURFACEPAIRINTERACTION_ID, "gap heat flux");
+	REGISTER_FECORE_CLASS(FEHeatSolver        , "heat");
+	REGISTER_FECORE_CLASS(FEIsotropicFourier  , "isotropic Fourier");
+	REGISTER_FECORE_CLASS(FEConstHeatSource   , "heat_source");
+	REGISTER_FECORE_CLASS(FEHeatFlux          , "heatflux");
+	REGISTER_FECORE_CLASS(FEConvectiveHeatFlux, "convective_heatflux");
+	REGISTER_FECORE_CLASS(FEPlotHeatFlux      , "heat flux");
+	REGISTER_FECORE_CLASS(FEGapHeatFlux       , "gap heat flux");
 
 	fecore.SetActiveModule(0);
 }

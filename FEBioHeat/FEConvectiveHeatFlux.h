@@ -32,5 +32,5 @@ private:
 	double	m_Ta;		//!< ambient temperature
 	FESurfaceMap	m_FC;
 
-	DECLARE_PARAMETER_LIST();
+	DECLARE_FECORE_CLASS();
 };

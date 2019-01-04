@@ -2,10 +2,10 @@
 #include "FECore/FEModel.h"
 
 //-----------------------------------------------------------------------------
-BEGIN_PARAMETER_LIST(FEConvectiveHeatFlux, FESurfaceLoad)
-	ADD_PARAMETER(m_hc, FE_PARAM_DOUBLE, "hc");
-	ADD_PARAMETER(m_Ta, FE_PARAM_DOUBLE, "Ta");
-END_PARAMETER_LIST();
+BEGIN_FECORE_CLASS(FEConvectiveHeatFlux, FESurfaceLoad)
+	ADD_PARAMETER(m_hc, "hc");
+	ADD_PARAMETER(m_Ta, "Ta");
+END_FECORE_CLASS();
 
 //-----------------------------------------------------------------------------
 FEConvectiveHeatFlux::FEConvectiveHeatFlux(FEModel* pfem) : FESurfaceLoad(pfem), m_FC(FE_DOUBLE)

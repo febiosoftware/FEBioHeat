@@ -21,23 +21,10 @@ public:
 
 protected: // from FELinearSolver
 
-	//! calculate the residual
-	void ForceVector(FEGlobalVector& R) override;
-
 	//! calculate the stiffness matrix
 	bool StiffnessMatrix(FELinearSystem& LS) override; 
 
-protected:	// RHS helper functions
-	//! Nodal fluxes
-	void NodalFluxes(FEGlobalVector& R);
-
-	//! Surface fluxes
-	void SurfaceFluxes(FEGlobalVector& R);
-
-	//! Heat Sources
-	void HeatSources(FEGlobalVector& R);
-
 protected:
 	// declare the parameter list
-	DECLARE_PARAMETER_LIST();
+	DECLARE_FECORE_CLASS();
 };

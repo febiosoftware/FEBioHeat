@@ -26,7 +26,6 @@ public:
 	vector< vector<Data> >	m_Data;
 	
 private:
-	FEModel*	m_fem;
 	int			m_dofT;
 };
 
@@ -70,5 +69,5 @@ private:
 	FEGapHeatFluxSurface	m_ms;
 	FEGapHeatFluxSurface	m_ss;
 
-	DECLARE_PARAMETER_LIST();
+	DECLARE_FECORE_CLASS();
 };

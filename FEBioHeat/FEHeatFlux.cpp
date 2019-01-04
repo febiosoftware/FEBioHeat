@@ -2,10 +2,10 @@
 #include "FECore/FEModel.h"
 
 //-----------------------------------------------------------------------------
-BEGIN_PARAMETER_LIST(FEHeatFlux, FESurfaceLoad)
-	ADD_PARAMETER(m_flux, FE_PARAM_DOUBLE    , "flux" );
-	ADD_PARAMETER(m_FC  , FE_PARAM_DATA_ARRAY, "value");
-END_PARAMETER_LIST();
+BEGIN_FECORE_CLASS(FEHeatFlux, FESurfaceLoad)
+	ADD_PARAMETER(m_flux, "flux" );
+	ADD_PARAMETER(m_FC  , "value");
+END_FECORE_CLASS();
 
 //-----------------------------------------------------------------------------
 FEHeatFlux::FEHeatFlux(FEModel* pfem) : FESurfaceLoad(pfem), m_FC(FE_DOUBLE)

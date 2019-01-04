@@ -129,19 +129,6 @@ void FEHeatSolidDomain::ElementHeatSource(FEHeatSource& hs, FESolidElement& el, 
 }
 
 //-----------------------------------------------------------------------------
-// Valuator class for the conductivity
-class FEConductivity : public FEMaterialPointValue<mat3ds>
-{
-public:
-	FEConductivity(FEHeatTransferMaterial* mat) : m_mat(mat){}
-
-	mat3ds operator()(FEMaterialPoint& mp) { return m_mat->Conductivity(mp); }
-
-private:
-	FEHeatTransferMaterial* m_mat;
-};
-
-//-----------------------------------------------------------------------------
 //! This function calculates the element stiffness matrix for a particular
 //! element.
 //!
@@ -150,11 +137,10 @@ void FEHeatSolidDomain::ElementConduction(FESolidElement& el, matrix& ke)
 	// zero the matrix
 	ke.zero();
 
-	// set up the conductivity valuator
-	FEConductivity D(m_pMat);
-
 	// do the element integration
-	IntegrateBDB(*this, el, D, ke);
+	IntegrateBDB(*this, el, [=](const FEMaterialPoint& mp) {
+		return m_pMat->Conductivity(const_cast<FEMaterialPoint&>(mp));
+	}, ke);
 }
 
 //-----------------------------------------------------------------------------

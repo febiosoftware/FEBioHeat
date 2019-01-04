@@ -24,5 +24,5 @@ public:
 	double Density() override { return m_rho; }
 
 	// declare parameter list
-	DECLARE_PARAMETER_LIST();
+	DECLARE_FECORE_CLASS();
 };
