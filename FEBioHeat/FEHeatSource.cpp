@@ -8,7 +8,7 @@ FEHeatSource::FEHeatSource(FEModel* pfem) : FEBodyLoad(pfem)
 
 
 //-----------------------------------------------------------------------------
-void FEHeatSource::Residual(const FETimeInfo& tp, FEGlobalVector& R)
+void FEHeatSource::ForceVector(FEGlobalVector& R)
 {
 	for (int j = 0; j < Domains(); ++j)
 	{

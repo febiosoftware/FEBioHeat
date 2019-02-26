@@ -13,6 +13,7 @@ bool FEPlotHeatFlux::Save(FEDomain &dom, FEDataStream& a)
 			const FEHeatMaterialPoint* pt = (mp.ExtractData<FEHeatMaterialPoint>());
 			return pt->m_q;
 		});
+		return true;
 	}
 	return false;
 }

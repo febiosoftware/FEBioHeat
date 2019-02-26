@@ -15,7 +15,7 @@ public:
 	//! constructor
 	FEHeatSource(FEModel* pfem);
 
-	void Residual(const FETimeInfo& tp, FEGlobalVector& R);
+	void ForceVector(FEGlobalVector& R) override;
 
 public:
 	virtual double value(FEMaterialPoint& mp) = 0;
