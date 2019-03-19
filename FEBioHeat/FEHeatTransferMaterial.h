@@ -21,14 +21,7 @@ public:
 
 	void Serialize(DumpStream& ar)
 	{
-		if (ar.IsSaving())
-		{
-			ar << m_q << m_T << m_T0;
-		}
-		else
-		{
-			ar >> m_q >> m_T >> m_T0;
-		}
+		ar & m_q & m_T & m_T0;
 		FEMaterialPoint::Serialize(ar);
 	}
 

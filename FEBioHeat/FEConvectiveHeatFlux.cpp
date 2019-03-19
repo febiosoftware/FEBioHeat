@@ -127,7 +127,7 @@ void FEConvectiveHeatFlux::StiffnessMatrix(FELinearSystem& LS, const FETimeInfo&
 		for (int j=0; j<neln; ++j) lm[j] = mesh.Node(el.m_node[j]).m_ID[dof_T];
 
 		// assemble element matrix in global stiffness matrix
-		LS.AssembleLHS(lm, ke);
+		LS.AssembleLHS(el.m_node, lm, ke);
 	}
 }
 

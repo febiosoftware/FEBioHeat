@@ -269,7 +269,8 @@ void FEGapHeatFlux::StiffnessMatrix(FELinearSystem& LS, const FETimeInfo& tp)
 				}
 
 				// assemble the global stiffness matrix
-				LS.AssembleLHS(LM, ke);
+				// TODO: I should not pass the me nodes!!
+				LS.AssembleLHS(me.m_node, LM, ke);
 			}
 		}
 	}

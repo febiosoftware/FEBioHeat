@@ -1,6 +1,7 @@
 #include "FEHeatSolidDomain.h"
 #include "FECore/FEModel.h"
 #include <FECore/Integrate.h>
+using namespace std::placeholders;
 
 //-----------------------------------------------------------------------------
 //! constructor
@@ -25,24 +26,8 @@ void FEHeatSolidDomain::SetMaterial(FEMaterial* pmat)
 // Calculate the heat conduction matrix
 void FEHeatSolidDomain::ConductionMatrix(FELinearSystem& ls)
 {
-	vector<int> lm;
-
-	// loop over all elements in domain
-	for (int i=0; i<(int) m_Elem.size(); ++i)
-	{
-		FESolidElement& el = m_Elem[i];
-		int ne = el.Nodes();
-
-		// build the element stiffness matrix
-		matrix ke(ne, ne);
-		ElementConduction(el, ke);
-
-		// set up the LM matrix
-		UnpackLM(el, lm);
-
-		// assemble into global matrix
-		ls.AssembleLHS(lm, ke);
-	}
+	auto fp = bind(&FEHeatSolidDomain::ElementConduction, this, _1, _2);
+	IntegrateSolidDomain(*this, ls, fp);
 }
 
 //-----------------------------------------------------------------------------
@@ -73,7 +58,7 @@ void FEHeatSolidDomain::CapacitanceMatrix(FELinearSystem& ls, double dt)
 		UnpackLM(el, lm);
 
 		// assemble into global matrix
-		ls.AssembleLHS(lm, kc);
+		ls.AssembleLHS(el.m_node, lm, kc);
 
 		// we also need to assemble this in the right-hand side
 		fe.resize(ne, 0.0);
