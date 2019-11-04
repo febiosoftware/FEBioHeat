@@ -5,14 +5,12 @@ using namespace std::placeholders;
 
 //-----------------------------------------------------------------------------
 //! constructor
-FEHeatSolidDomain::FEHeatSolidDomain(FEModel* pfem) : FESolidDomain(pfem), FEHeatDomain(pfem)
+FEHeatSolidDomain::FEHeatSolidDomain(FEModel* pfem) : FESolidDomain(pfem), FEHeatDomain(pfem), m_dof(pfem)
 {
 	m_pMat = 0;
 
 	// list the degrees of freedom
-	vector<int> dof;
-	dof.push_back(pfem->GetDOFIndex("T"));
-	SetDOFList(dof);
+	m_dof.AddDof(pfem->GetDOFIndex("T"));
 }
 
 //-----------------------------------------------------------------------------
@@ -27,7 +25,7 @@ void FEHeatSolidDomain::SetMaterial(FEMaterial* pmat)
 void FEHeatSolidDomain::ConductionMatrix(FELinearSystem& ls)
 {
 	auto fp = bind(&FEHeatSolidDomain::ElementConduction, this, _1, _2);
-	IntegrateSolidDomain(*this, ls, fp);
+	AssembleSolidDomain(*this, ls, fp);
 }
 
 //-----------------------------------------------------------------------------
@@ -37,8 +35,8 @@ void FEHeatSolidDomain::CapacitanceMatrix(FELinearSystem& ls, double dt)
 	vector<int> lm;
 	vector<double> fe;
 
-	vector<int> dofs = GetDOFList();
-	assert(dofs.size()==1);
+	FEDofList& dofs = m_dof;
+	assert(dofs.Size()==1);
 	int dofT = dofs[0];
 
 	// get the mesh
@@ -51,14 +49,16 @@ void FEHeatSolidDomain::CapacitanceMatrix(FELinearSystem& ls, double dt)
 		int ne = el.Nodes();
 
 		// element capacitance matrix
-		matrix kc(ne, ne);
+		FEElementMatrix kc(ne, ne);
 		ElementCapacitance(el, kc, dt);
 
 		// set up the LM matrix
 		UnpackLM(el, lm);
+		kc.SetIndices(lm);
+		kc.SetNodes(el.m_node);
 
 		// assemble into global matrix
-		ls.AssembleLHS(el.m_node, lm, kc);
+		ls.Assemble(kc);
 
 		// we also need to assemble this in the right-hand side
 		fe.resize(ne, 0.0);

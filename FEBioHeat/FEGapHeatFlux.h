@@ -17,7 +17,7 @@ public:
 public:
 	FEGapHeatFluxSurface(FEModel* fem);
 
-	void UnpackLM(FEElement& el, vector<int>& lm) override;
+	void UnpackLM(FEElement& el, vector<int>& lm);
 
 	// one-time initialization
 	bool Init() override;

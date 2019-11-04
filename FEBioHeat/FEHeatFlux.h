@@ -1,6 +1,6 @@
 #pragma once
 #include <FECore/FESurfaceLoad.h>
-#include <FECore/FESurfaceMap.h>
+#include <FECore/FEModelParam.h>
 
 //-----------------------------------------------------------------------------
 //! Surface that sustains a heat flux boundary condition
@@ -11,18 +11,19 @@ public:
 	//! constructor
 	FEHeatFlux(FEModel* pfem);
 
+	//! initialization
+	bool Init() override;
+
 	//! Set the surface to apply the load to
 	void SetSurface(FESurface* ps) override;
 
-	//! stiffness matrix
-	void StiffnessMatrix(const FETimeInfo& tp, FESolver* psolver) override {}
-	
 	//! residual
-	void Residual(const FETimeInfo& tp, FEGlobalVector& R) override;
+	void LoadVector(FEGlobalVector& R, const FETimeInfo& tp) override;
 
 protected:
-	double	m_flux;	//!< heat flux
-	FESurfaceMap	m_FC;
+	FEParamDouble	m_flux;	//!< heat flux
+
+	FEDofList	m_dofT;
 
 	DECLARE_FECORE_CLASS();
 };

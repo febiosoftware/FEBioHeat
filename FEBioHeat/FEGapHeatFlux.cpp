@@ -180,7 +180,7 @@ void FEGapHeatFlux::BuildMatrixProfile(FEGlobalMatrix& K)
 void FEGapHeatFlux::StiffnessMatrix(FELinearSystem& LS, const FETimeInfo& tp)
 {
 	vector<int> sLM, mLM, LM, en;
-	matrix ke;
+	FEElementMatrix ke;
 
 	// shape functions
 	double Hm[FEElement::MAX_NODES];
@@ -270,7 +270,9 @@ void FEGapHeatFlux::StiffnessMatrix(FELinearSystem& LS, const FETimeInfo& tp)
 
 				// assemble the global stiffness matrix
 				// TODO: I should not pass the me nodes!!
-				LS.AssembleLHS(me.m_node, LM, ke);
+				ke.SetNodes(me.m_node);
+				ke.SetIndices(LM);
+				LS.Assemble(ke);
 			}
 		}
 	}

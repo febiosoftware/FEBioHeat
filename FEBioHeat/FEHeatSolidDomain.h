@@ -63,6 +63,9 @@ protected:
 	//! calculate element contribution to heat source term
 	void ElementHeatSource(FEHeatSource& hs, FESolidElement& el, vector<double>& fe);
 
+	const FEDofList& GetDOFList() const { return m_dof; }
+
 protected:
 	FEHeatTransferMaterial*	m_pMat;
+	FEDofList				m_dof;
 };

@@ -34,3 +34,21 @@ private:
 
 	DECLARE_FECORE_CLASS();
 };
+
+//-----------------------------------------------------------------------------
+class FEBioHeatSource : public FEHeatSource
+{
+public:
+	FEBioHeatSource(FEModel* fem);
+
+	double value(FEMaterialPoint& mp) override;
+
+	void StiffnessMatrix(FELinearSystem& LS, const FETimeInfo& tp) override;
+
+protected:
+	double	m_Ta;	// arterial temperature
+	double	m_W;	// tissue-blood perfusion rate
+	double	m_cb;	// blood-specific heat
+
+	DECLARE_FECORE_CLASS();
+};

@@ -25,6 +25,7 @@ FECORE_PLUGIN void PluginInitialize(FECoreKernel& fecore)
 	REGISTER_FECORE_CLASS(FEHeatSolver        , "heat");
 	REGISTER_FECORE_CLASS(FEIsotropicFourier  , "isotropic Fourier");
 	REGISTER_FECORE_CLASS(FEConstHeatSource   , "heat_source");
+	REGISTER_FECORE_CLASS(FEBioHeatSource     , "bioheat");
 	REGISTER_FECORE_CLASS(FEHeatFlux          , "heatflux");
 	REGISTER_FECORE_CLASS(FEConvectiveHeatFlux, "convective_heatflux");
 	REGISTER_FECORE_CLASS(FEPlotHeatFlux      , "heat flux");
