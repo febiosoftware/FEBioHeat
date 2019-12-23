@@ -33,7 +33,7 @@ bool FEConvectiveHeatFlux::Init()
 //! residual
 void FEConvectiveHeatFlux::LoadVector(FEGlobalVector& R, const FETimeInfo& tp)
 {
-	m_psurf->LoadVector(R, m_dofT, false, [&](FESurfaceMaterialPoint& mp, int node_a, vector<double>& fa) {
+	m_psurf->LoadVector(R, m_dofT, false, [&](FESurfaceMaterialPoint& mp, const FESurfaceDofShape& node_a, vector<double>& fa) {
 
 		// evaluate flux
 		double q = m_Ta;
@@ -42,8 +42,8 @@ void FEConvectiveHeatFlux::LoadVector(FEGlobalVector& R, const FETimeInfo& tp)
 		double J = (mp.dxr ^ mp.dxs).norm();
 
 		// evaluate nodal value
-		double* H = mp.m_shape;
-		fa[0] = H[node_a] * q*J;
+		double H = node_a.shape;
+		fa[0] = H * q*J;
 	});
 }
 
@@ -51,11 +51,12 @@ void FEConvectiveHeatFlux::LoadVector(FEGlobalVector& R, const FETimeInfo& tp)
 //! stiffness matrix
 void FEConvectiveHeatFlux::StiffnessMatrix(FELinearSystem& LS, const FETimeInfo& tp)
 {
-	m_psurf->LoadStiffness(LS, m_dofT, m_dofT, [=](FESurfaceMaterialPoint& pt, int node_a, int node_b, matrix& Kab) {
+	m_psurf->LoadStiffness(LS, m_dofT, m_dofT, [=](FESurfaceMaterialPoint& pt, const FESurfaceDofShape& node_a, const FESurfaceDofShape& node_b, matrix& Kab) {
 
 		double J = (pt.dxr ^ pt.dxs).norm();
-		double* N = pt.m_shape;
-		double kij = m_hc*N[node_a] * N[node_b] * J;
+		double H_a = node_a.shape;
+		double H_b = node_b.shape;
+		double kij = m_hc*H_a * H_b * J;
 		Kab[0][0] = kij;
 	});
 }

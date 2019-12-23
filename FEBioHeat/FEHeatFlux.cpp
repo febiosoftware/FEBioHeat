@@ -32,7 +32,7 @@ void FEHeatFlux::SetSurface(FESurface* psurf)
 //! Calculate the heat flux residual
 void FEHeatFlux::LoadVector(FEGlobalVector& R, const FETimeInfo& tp)
 {
-	m_psurf->LoadVector(R, m_dofT, false, [=](FESurfaceMaterialPoint& mp, int node_a, vector<double>& fa) {
+	m_psurf->LoadVector(R, m_dofT, false, [=](FESurfaceMaterialPoint& mp, const FESurfaceDofShape& node_a, vector<double>& fa) {
 		
 		// heat flux
 		double q = m_flux(mp);
@@ -41,7 +41,7 @@ void FEHeatFlux::LoadVector(FEGlobalVector& R, const FETimeInfo& tp)
 		double J = (mp.dxr ^ mp.dxs).norm();
 
 		// evaluate integrand
-		double* H = mp.m_shape;
-		fa[0] = H[node_a] * q*J;
+		double H = node_a.shape;
+		fa[0] = H * q*J;
 	});
 }
