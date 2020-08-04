@@ -46,11 +46,11 @@ public:
 
 // from FESurfacePairConstraint
 public:
-	//! return the master surface
-	FESurface* GetMasterSurface() override { return &m_ms; }
-
 	//! return the slave surface
-	FESurface* GetSlaveSurface() override { return &m_ss; }
+	FESurface* GetPrimarySurface() override;
+
+	//! return the master surface
+	FESurface* GetSecondarySurface() override;
 
 	//! temporary construct to determine if contact interface uses nodal integration rule (or facet)
 	bool UseNodalIntegration() override { return false; }

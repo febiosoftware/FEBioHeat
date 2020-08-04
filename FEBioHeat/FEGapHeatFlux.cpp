@@ -77,6 +77,11 @@ void FEGapHeatFlux::Activate()
 	ProjectSurface(m_ss, m_ms);
 }
 
+FESurface* FEGapHeatFlux::GetPrimarySurface() { return &m_ss; }
+
+//! return the master surface
+FESurface* FEGapHeatFlux::GetSecondarySurface() { return &m_ms; }
+
 void FEGapHeatFlux::ProjectSurface(FEGapHeatFluxSurface& ss, FEGapHeatFluxSurface& ms)
 {
 	FEClosestPointProjection cpp(ms);
