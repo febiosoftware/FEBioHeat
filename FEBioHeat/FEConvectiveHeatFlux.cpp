@@ -36,7 +36,7 @@ void FEConvectiveHeatFlux::LoadVector(FEGlobalVector& R, const FETimeInfo& tp)
 	m_psurf->LoadVector(R, m_dofT, false, [&](FESurfaceMaterialPoint& mp, const FESurfaceDofShape& node_a, vector<double>& fa) {
 
 		// evaluate flux
-		double q = m_Ta;
+		double q = m_hc*m_Ta;
 
 		// Jacobian
 		double J = (mp.dxr ^ mp.dxs).norm();
