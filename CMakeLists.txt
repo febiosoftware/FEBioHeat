@@ -171,3 +171,7 @@ set_property(TARGET FEBioHeat PROPERTY AUTOGEN_BUILD_DIR ${CMAKE_BINARY_DIR}/CMa
 ##### Link Libraries #####
 
 target_link_libraries(FEBioHeat ${FECORE} ${FEBIOMECH})
+
+if(APPLE)
+    target_link_libraries(FEBioHeat -L/usr/local/opt/libomp/lib -lomp)
+endif()
