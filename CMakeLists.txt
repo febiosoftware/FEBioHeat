@@ -145,6 +145,7 @@ if(WIN32)
 elseif(APPLE)
     add_definitions(-D__APPLE__)
     set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13)
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -undefined dynamic_lookup")
 else()
 	add_definitions(-DLINUX)
     add_compile_options(-static-libstdc++ -static-libgcc -w -Wall)
@@ -171,7 +172,3 @@ set_property(TARGET FEBioHeat PROPERTY AUTOGEN_BUILD_DIR ${CMAKE_BINARY_DIR}/CMa
 ##### Link Libraries #####
 
 target_link_libraries(FEBioHeat ${FECORE} ${FEBIOMECH})
-
-if(APPLE)
-    target_link_libraries(FEBioHeat -L/usr/local/opt/libomp/lib -lomp)
-endif()
