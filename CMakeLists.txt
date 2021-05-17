@@ -171,4 +171,4 @@ set_property(TARGET FEBioHeat PROPERTY AUTOGEN_BUILD_DIR ${CMAKE_BINARY_DIR}/CMa
 
 ##### Link Libraries #####
 
-target_link_libraries(FEBioHeat ${FECORE} /usr/local/lib64/libgsl.a)
+target_link_libraries(FEBioHeat ${FECORE})
