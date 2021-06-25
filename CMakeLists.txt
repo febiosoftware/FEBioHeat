@@ -80,7 +80,7 @@ if(NEWPATH)
         if(WIN32)
             list(APPEND LIB_SUFFIXES "cmbuild/lib/Release" "cmbuild/lib/Debug" "cbuild/lib/Release" "cbuild/lib/Debug" "build/lib/Release" "build/lib/Debug")
         else()
-            list(APPEND LIB_SUFFIXES "cbuild/lib" "cmbuild/lib" "build/lib")
+            list(APPEND LIB_SUFFIXES "cbuild/lib" "cmbuild/lib" "build/lib" "cbuild/Release/lib" "cmbuild/Release/lib" "build/Release/lib" "cbuild/Debug/lib" "cmbuild/Debug/lib" "build/Debug/lib")
         endif()
     endif()
 
@@ -171,4 +171,4 @@ set_property(TARGET FEBioHeat PROPERTY AUTOGEN_BUILD_DIR ${CMAKE_BINARY_DIR}/CMa
 
 ##### Link Libraries #####
 
-target_link_libraries(FEBioHeat ${FECORE} ${FEBIOMECH})
+target_link_libraries(FEBioHeat ${FECORE})
