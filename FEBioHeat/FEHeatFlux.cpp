@@ -3,7 +3,7 @@
 
 //-----------------------------------------------------------------------------
 BEGIN_FECORE_CLASS(FEHeatFlux, FESurfaceLoad)
-	ADD_PARAMETER(m_flux, "flux" );
+	ADD_PARAMETER(m_flux, "flux" )->setUnits("W/L^2");
 END_FECORE_CLASS();
 
 //-----------------------------------------------------------------------------

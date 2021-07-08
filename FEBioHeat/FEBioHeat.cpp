@@ -9,6 +9,7 @@
 #include "FEHeatSource.h"
 #include "FEHeatSolidDomain.h"
 #include "FEGapHeatFlux.h"
+#include "FEHeatBC.h"
 
 
 FECORE_PLUGIN int GetSDKVersion()
@@ -28,7 +29,15 @@ FECORE_PLUGIN void PluginInitialize(FECoreKernel& fecore)
 	FECoreKernel::SetInstance(&fecore);
 
 	// create the heat-transfer module
-	fecore.CreateModule("heat");
+	const char* info = \
+		"{ "
+		"   \"title\" : \"Heat Transfer\","
+		"   \"info\"  : \"Transient or steady-state heat conduction analysis.\","
+		"   \"author\": \"Steve Maas\","
+		"   \"version\": \"1.0\""
+        "}";
+
+	fecore.CreateModule("heat", info);
 
 	// Domain factory
 	fecore.RegisterDomain(new FEHeatDomainFactory);
@@ -41,8 +50,11 @@ FECORE_PLUGIN void PluginInitialize(FECoreKernel& fecore)
 	REGISTER_FECORE_CLASS(FEBioHeatSource     , "bioheat");
 	REGISTER_FECORE_CLASS(FEHeatFlux          , "heatflux");
 	REGISTER_FECORE_CLASS(FEConvectiveHeatFlux, "convective_heatflux");
-	REGISTER_FECORE_CLASS(FEPlotHeatFlux      , "heat flux");
 	REGISTER_FECORE_CLASS(FEGapHeatFlux       , "gap heat flux");
+	REGISTER_FECORE_CLASS(FEFixedTemperature  , "fixed temperature");
+	REGISTER_FECORE_CLASS(FEPrescribedTemperature, "prescribed temperature");
+	REGISTER_FECORE_CLASS(FEPlotHeatFlux      , "heat flux");
+	REGISTER_FECORE_CLASS(FEPlotTemperature   , "temperature");
 
 	fecore.SetActiveModule(0);
 }
