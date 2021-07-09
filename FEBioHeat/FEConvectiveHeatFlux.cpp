@@ -3,8 +3,8 @@
 
 //-----------------------------------------------------------------------------
 BEGIN_FECORE_CLASS(FEConvectiveHeatFlux, FESurfaceLoad)
-	ADD_PARAMETER(m_hc, "hc");  //->setUnits("W/L^2.T");
-	ADD_PARAMETER(m_Ta, "Ta");	//->setUnits(UNIT_TEMPERATURE);
+	ADD_PARAMETER(m_hc, "hc")->setUnits("W/L^2.T");
+	ADD_PARAMETER(m_Ta, "Ta")->setUnits(UNIT_TEMPERATURE);
 END_FECORE_CLASS();
 
 //-----------------------------------------------------------------------------
