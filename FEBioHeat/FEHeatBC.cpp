@@ -21,7 +21,7 @@ bool FEFixedTemperature::Init()
 // NOTE: I'm setting FEBoundaryCondition is the base class since I don't want to pull
 //       in the parameters of FEPrescribedDOF. 
 BEGIN_FECORE_CLASS(FEPrescribedTemperature, FEBoundaryCondition)
-	ADD_PARAMETER(m_scale, "value")->setUnits(UNIT_TEMPERATURE);
+	ADD_PARAMETER(m_scale, "value"); // ->setUnits(UNIT_TEMPERATURE);
 	ADD_PARAMETER(m_brelative, "relative");
 	
 	ADD_PROPERTY(m_nodeSet, "node_set");

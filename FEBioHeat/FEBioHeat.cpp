@@ -37,7 +37,7 @@ FECORE_PLUGIN void PluginInitialize(FECoreKernel& fecore)
 		"   \"version\": \"1.0\""
         "}";
 
-	fecore.CreateModule("heat", info);
+	fecore.CreateModule("heat");// , info);
 
 	// Domain factory
 	fecore.RegisterDomain(new FEHeatDomainFactory);
