@@ -7,11 +7,11 @@ DEP = $(patsubst $(FCDIR)$(THIS)/%.cpp, %.d, $(SRC))
 SO = lib$(PLGN)_$(PLAT).$(SFX)
 LIB = $(FCDIR)build/lib/$(SO)
 
-FECORE = $(FEBLIB)/libfecore_$(PLAT).a
+FECORE = $(FEBLIB)/FECore/libfecore.a
 
-FEBIOMECH = $(FEBLIB)/libfebiomech_$(PLAT).a
+FEBIOMECH = $(FEBLIB)/FEBioMech/libfebiomech.a
 
-NUMCORE = $(FEBLIB)/libnumcore_$(PLAT).a
+NUMCORE = $(FEBLIB)/NumCore/libnumcore.a
 
 FEBIOLIBS = $(NUMCORE) $(FECORE) $(FEBIOMECH)
 
