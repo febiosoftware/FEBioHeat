@@ -7,6 +7,7 @@
 #include <FECore/FEModel.h>
 #include <FECore/FEAnalysis.h>
 #include <FECore/FENodalLoad.h>
+#include "FEHeatAnalysis.h"
 
 //-----------------------------------------------------------------------------
 // define the parameter list
@@ -81,8 +82,8 @@ bool FEHeatSolver::StiffnessMatrix(FELinearSystem& LS)
 
 	FEAnalysis* pstep = fem.GetCurrentStep();
 
-	// see if this is a dynamic problem
-	bool bdyn = (pstep->m_nanalysis == FE_DYNAMIC);
+	// see if this is a transient problem
+	bool btransient  = (pstep->m_nanalysis == FEHeatAnalysis::TRANSIENT);
 
 	// get the time information
 	const FETimeInfo& tp = fem.GetTime();
@@ -96,17 +97,17 @@ bool FEHeatSolver::StiffnessMatrix(FELinearSystem& LS)
 		bd.ConductionMatrix(LS);
 
 		// for a dynamic analysis add the capacitance matrix
-		if (bdyn) 
+		if (btransient)
 		{
 			bd.CapacitanceMatrix(LS, tp.timeIncrement);
 		}
 	}
 
 	// add convective heat fluxes
-	for (int i=0; i<fem.SurfaceLoads(); ++i)
+	for (int i=0; i<fem.ModelLoads(); ++i)
 	{
-		FEConvectiveHeatFlux* pbc = dynamic_cast<FEConvectiveHeatFlux*>(fem.SurfaceLoad(i));
-		if (pbc && pbc->IsActive()) pbc->StiffnessMatrix(LS, tp);
+		FEConvectiveHeatFlux* pbc = dynamic_cast<FEConvectiveHeatFlux*>(fem.ModelLoad(i));
+		if (pbc && pbc->IsActive()) pbc->StiffnessMatrix(LS);
 	}
 
 	// add contact gap fluxes

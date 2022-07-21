@@ -15,7 +15,7 @@ public:
 	//! constructor
 	FEHeatSource(FEModel* pfem);
 
-	void ForceVector(FEGlobalVector& R) override;
+	void LoadVector(FEGlobalVector& R) override;
 
 public:
 	virtual double value(FEMaterialPoint& mp) = 0;
@@ -43,7 +43,7 @@ public:
 
 	double value(FEMaterialPoint& mp) override;
 
-	void StiffnessMatrix(FELinearSystem& LS, const FETimeInfo& tp) override;
+	void StiffnessMatrix(FELinearSystem& LS) override;
 
 protected:
 	double	m_Ta;	// arterial temperature

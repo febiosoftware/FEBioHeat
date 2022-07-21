@@ -18,7 +18,7 @@ public:
 	void SetSurface(FESurface* ps) override;
 
 	//! residual
-	void LoadVector(FEGlobalVector& R, const FETimeInfo& tp) override;
+	void LoadVector(FEGlobalVector& R) override;
 
 protected:
 	FEParamDouble	m_flux;	//!< heat flux

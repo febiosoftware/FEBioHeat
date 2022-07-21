@@ -19,10 +19,10 @@ public:
 	void SetSurface(FESurface* ps) override;
 
 	//! stiffness matrix (new interface)
-	void StiffnessMatrix(FELinearSystem& LS, const FETimeInfo& tp);
+	void StiffnessMatrix(FELinearSystem& LS) override;
 	
 	//! residual
-	void LoadVector(FEGlobalVector& R, const FETimeInfo& tp) override;
+	void LoadVector(FEGlobalVector& R) override;
 
 private:
 	double	m_hc;		//!< heat transfer coefficient

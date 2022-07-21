@@ -8,7 +8,7 @@ FEHeatSource::FEHeatSource(FEModel* pfem) : FEBodyLoad(pfem)
 
 
 //-----------------------------------------------------------------------------
-void FEHeatSource::ForceVector(FEGlobalVector& R)
+void FEHeatSource::LoadVector(FEGlobalVector& R)
 {
 	for (int j = 0; j < Domains(); ++j)
 	{
@@ -50,7 +50,7 @@ double FEBioHeatSource::value(FEMaterialPoint& mp)
 	return -m_W*m_cb*(pt.m_T - m_Ta);
 }
 
-void FEBioHeatSource::StiffnessMatrix(FELinearSystem& LS, const FETimeInfo& tp)
+void FEBioHeatSource::StiffnessMatrix(FELinearSystem& LS)
 {
 	FEDomainList& domList = GetDomainList();
 	assert(domList.IsEmpty() == false);
