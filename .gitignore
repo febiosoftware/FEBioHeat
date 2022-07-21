@@ -388,3 +388,4 @@ MigrationBackup/
 # miscellaneous
 Documentation/Doxygen/doc
 VS2019/
+vs*/
