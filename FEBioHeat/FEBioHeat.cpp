@@ -69,7 +69,7 @@ FECORE_PLUGIN void PluginInitialize(FECoreKernel& fecore)
 	REGISTER_FECORE_CLASS(FEHeatFlux          , "heatflux");
 	REGISTER_FECORE_CLASS(FEConvectiveHeatFlux, "convective_heatflux");
 	REGISTER_FECORE_CLASS(FEGapHeatFlux       , "gap heat flux");
-	REGISTER_FECORE_CLASS(FEFixedTemperature  , "fixed temperature");
+	REGISTER_FECORE_CLASS(FEFixedTemperature  , "zero temperature");
 	REGISTER_FECORE_CLASS(FEPrescribedTemperature, "prescribed temperature");
 	REGISTER_FECORE_CLASS(FEPlotHeatFlux      , "heat flux");
 	REGISTER_FECORE_CLASS(FEPlotTemperature   , "temperature");
