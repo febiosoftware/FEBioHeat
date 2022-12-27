@@ -81,7 +81,7 @@ if(NEWPATH)
         set(FEBio_INC ${FEBio_SDK} CACHE PATH "Path to FEBio include directory." FORCE)
         
         if(WIN32)
-            list(APPEND LIB_SUFFIXES "cmbuild/lib/Release" "cmbuild/lib/Debug" "cbuild/lib/Release" "cbuild/lib/Debug" "build/lib/Release" "build/lib/Debug")
+            list(APPEND LIB_SUFFIXES "cmbuild22/lib/Release" "cmbuild/lib/Release" "cmbuild/lib/Debug" "cbuild/lib/Release" "cbuild/lib/Debug" "build/lib/Release" "build/lib/Debug")
         else()
             list(APPEND LIB_SUFFIXES "cbuild/lib" "cmbuild/lib" "build/lib" "cbuild/Release/lib" "cmbuild/Release/lib" "build/Release/lib" "cbuild/Debug/lib" "cmbuild/Debug/lib" "build/Debug/lib")
         endif()
@@ -144,7 +144,7 @@ endif()
 ##### Set appropriate defines and includes #####
 
 if(WIN32)
-    add_definitions(-DWIN32 /MP /openmp)
+    add_definitions(-DWIN32 -DFECORE_DLL /MP /openmp)
 elseif(APPLE)
     add_definitions(-D__APPLE__)
     set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13)
