@@ -3,16 +3,16 @@
 
 //-----------------------------------------------------------------------------
 // Material point class for heat transfer materials.
-class FEHeatMaterialPoint : public FEMaterialPoint
+class FEHeatMaterialPoint : public FEMaterialPointData
 {
 public:
-	FEHeatMaterialPoint(FEMaterialPoint* mp) : FEMaterialPoint(mp)
+	FEHeatMaterialPoint(FEMaterialPointData* mp) : FEMaterialPointData(mp)
 	{
 		m_T = m_T0 = 0.0;
 		m_q = vec3d(0,0,0);
 	}
 
-	FEMaterialPoint* Copy()
+	FEMaterialPointData* Copy()
 	{
 		FEHeatMaterialPoint* pt = new FEHeatMaterialPoint(*this);
 		if (m_pNext) pt->m_pNext = m_pNext->Copy();
@@ -22,7 +22,7 @@ public:
 	void Serialize(DumpStream& ar)
 	{
 		ar & m_q & m_T & m_T0;
-		FEMaterialPoint::Serialize(ar);
+		FEMaterialPointData::Serialize(ar);
 	}
 
 public:
@@ -40,7 +40,7 @@ public:
 	FEHeatTransferMaterial(FEModel* pfem) : FEMaterial(pfem) {}
 
 	//! create material point data
-	FEMaterialPoint* CreateMaterialPointData() { return new FEHeatMaterialPoint(0); }
+	FEMaterialPointData* CreateMaterialPointData() override { return new FEHeatMaterialPoint(0); }
 
 	//! get the material's conductivity
 	virtual mat3ds Conductivity(FEMaterialPoint& mp) = 0;

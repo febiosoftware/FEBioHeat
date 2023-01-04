@@ -10,7 +10,21 @@
 #include "FEHeatSolidDomain.h"
 #include "FEGapHeatFlux.h"
 #include "FEHeatBC.h"
+#include <FECore/FEModule.h>
+#include <FECore/FEModel.h>
+#include "FEHeatAnalysis.h"
 
+class FEHeatModule : public FEModule
+{
+public:
+	FEHeatModule() {}
+	void InitModel(FEModel* fem)
+	{
+		DOFS& dofs = fem->GetDOFS();
+		int var = dofs.AddVariable("temperature");
+		dofs.SetDOFName(var, 0, "T");
+	}
+};
 
 FECORE_PLUGIN int GetSDKVersion()
 {
@@ -19,7 +33,7 @@ FECORE_PLUGIN int GetSDKVersion()
 
 FECORE_PLUGIN void GetPluginVersion(int& major, int& minor, int& patch)
 {
-	major = 1;
+	major = 2;
 	minor = 0;
 	patch = 0;
 }
@@ -34,10 +48,14 @@ FECORE_PLUGIN void PluginInitialize(FECoreKernel& fecore)
 		"   \"title\" : \"Heat Transfer\","
 		"   \"info\"  : \"Transient or steady-state heat conduction analysis.\","
 		"   \"author\": \"Steve Maas\","
-		"   \"version\": \"1.0\""
+		"   \"version\": \"2.0\""
         "}";
 
-	fecore.CreateModule("heat");// , info);
+	fecore.CreateModule(new FEHeatModule, "heat", info);
+
+	//-----------------------------------------------------------------------------
+	// analyis classes (default type must match module name!)
+	REGISTER_FECORE_CLASS(FEHeatAnalysis, "heat");
 
 	// Domain factory
 	fecore.RegisterDomain(new FEHeatDomainFactory);
@@ -51,7 +69,7 @@ FECORE_PLUGIN void PluginInitialize(FECoreKernel& fecore)
 	REGISTER_FECORE_CLASS(FEHeatFlux          , "heatflux");
 	REGISTER_FECORE_CLASS(FEConvectiveHeatFlux, "convective_heatflux");
 	REGISTER_FECORE_CLASS(FEGapHeatFlux       , "gap heat flux");
-	REGISTER_FECORE_CLASS(FEFixedTemperature  , "fixed temperature");
+	REGISTER_FECORE_CLASS(FEFixedTemperature  , "zero temperature");
 	REGISTER_FECORE_CLASS(FEPrescribedTemperature, "prescribed temperature");
 	REGISTER_FECORE_CLASS(FEPlotHeatFlux      , "heat flux");
 	REGISTER_FECORE_CLASS(FEPlotTemperature   , "temperature");

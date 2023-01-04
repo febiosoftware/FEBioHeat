@@ -8,7 +8,7 @@ FEHeatSource::FEHeatSource(FEModel* pfem) : FEBodyLoad(pfem)
 
 
 //-----------------------------------------------------------------------------
-void FEHeatSource::ForceVector(FEGlobalVector& R)
+void FEHeatSource::LoadVector(FEGlobalVector& R)
 {
 	for (int j = 0; j < Domains(); ++j)
 	{
@@ -19,7 +19,7 @@ void FEHeatSource::ForceVector(FEGlobalVector& R)
 
 //-----------------------------------------------------------------------------
 BEGIN_FECORE_CLASS(FEConstHeatSource, FEHeatSource);
-	ADD_PARAMETER(m_Q, "Q");//->setUnits("W/L^3");
+	ADD_PARAMETER(m_Q, "Q")->setUnits("W/L^3");
 END_FECORE_CLASS();
 
 //-----------------------------------------------------------------------------
@@ -30,9 +30,9 @@ FEConstHeatSource::FEConstHeatSource(FEModel* pfem) : FEHeatSource(pfem)
 
 //-----------------------------------------------------------------------------
 BEGIN_FECORE_CLASS(FEBioHeatSource, FEHeatSource);
-	ADD_PARAMETER(m_Ta, "Ta");//->setUnits(UNIT_TEMPERATURE);
-	ADD_PARAMETER(m_W , "W" );//->setUnits("M/L^3.t");
-	ADD_PARAMETER(m_cb, "cb");//->setUnits("E/T.M");
+	ADD_PARAMETER(m_Ta, "Ta")->setUnits(UNIT_TEMPERATURE);
+	ADD_PARAMETER(m_W , "W")->setUnits("M/L^3.t");
+	ADD_PARAMETER(m_cb, "cb")->setUnits("E/T.M");
 END_FECORE_CLASS();
 
 //-----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ double FEBioHeatSource::value(FEMaterialPoint& mp)
 	return -m_W*m_cb*(pt.m_T - m_Ta);
 }
 
-void FEBioHeatSource::StiffnessMatrix(FELinearSystem& LS, const FETimeInfo& tp)
+void FEBioHeatSource::StiffnessMatrix(FELinearSystem& LS)
 {
 	FEDomainList& domList = GetDomainList();
 	assert(domList.IsEmpty() == false);

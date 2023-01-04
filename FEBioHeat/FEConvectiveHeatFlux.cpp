@@ -3,8 +3,8 @@
 
 //-----------------------------------------------------------------------------
 BEGIN_FECORE_CLASS(FEConvectiveHeatFlux, FESurfaceLoad)
-	ADD_PARAMETER(m_hc, "hc");  //->setUnits("W/L^2.T");
-	ADD_PARAMETER(m_Ta, "Ta");	//->setUnits(UNIT_TEMPERATURE);
+	ADD_PARAMETER(m_hc, "hc")->setUnits("W/L^2.T");
+	ADD_PARAMETER(m_Ta, "Ta")->setUnits(UNIT_TEMPERATURE);
 END_FECORE_CLASS();
 
 //-----------------------------------------------------------------------------
@@ -31,7 +31,7 @@ bool FEConvectiveHeatFlux::Init()
 
 //-----------------------------------------------------------------------------
 //! residual
-void FEConvectiveHeatFlux::LoadVector(FEGlobalVector& R, const FETimeInfo& tp)
+void FEConvectiveHeatFlux::LoadVector(FEGlobalVector& R)
 {
 	m_psurf->LoadVector(R, m_dofT, false, [&](FESurfaceMaterialPoint& mp, const FESurfaceDofShape& node_a, vector<double>& fa) {
 
@@ -49,7 +49,7 @@ void FEConvectiveHeatFlux::LoadVector(FEGlobalVector& R, const FETimeInfo& tp)
 
 //-----------------------------------------------------------------------------
 //! stiffness matrix
-void FEConvectiveHeatFlux::StiffnessMatrix(FELinearSystem& LS, const FETimeInfo& tp)
+void FEConvectiveHeatFlux::StiffnessMatrix(FELinearSystem& LS)
 {
 	m_psurf->LoadStiffness(LS, m_dofT, m_dofT, [=](FESurfaceMaterialPoint& pt, const FESurfaceDofShape& node_a, const FESurfaceDofShape& node_b, matrix& Kab) {
 

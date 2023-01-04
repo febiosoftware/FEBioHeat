@@ -2,6 +2,7 @@
 #include "FEHeatSolidDomain.h"
 #include "FEHeatTransferMaterial.h"
 #include <FECore/writeplot.h>
+#include <FECore/FEModel.h>
 
 //-----------------------------------------------------------------------------
 bool FEPlotTemperature::Save(FEMesh& mesh, FEDataStream& a)

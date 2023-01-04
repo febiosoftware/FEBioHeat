@@ -3,7 +3,7 @@
 
 //-----------------------------------------------------------------------------
 BEGIN_FECORE_CLASS(FEHeatFlux, FESurfaceLoad)
-	ADD_PARAMETER(m_flux, "flux" );	//->setUnits("W/L^2");
+	ADD_PARAMETER(m_flux, "flux" )->setUnits("W/L^2");
 END_FECORE_CLASS();
 
 //-----------------------------------------------------------------------------
@@ -30,7 +30,7 @@ void FEHeatFlux::SetSurface(FESurface* psurf)
 
 //-----------------------------------------------------------------------------
 //! Calculate the heat flux residual
-void FEHeatFlux::LoadVector(FEGlobalVector& R, const FETimeInfo& tp)
+void FEHeatFlux::LoadVector(FEGlobalVector& R)
 {
 	m_psurf->LoadVector(R, m_dofT, false, [=](FESurfaceMaterialPoint& mp, const FESurfaceDofShape& node_a, vector<double>& fa) {
 		

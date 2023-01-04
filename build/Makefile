@@ -2,18 +2,18 @@ FCDIR = $(dir $(CURDIR))
 export PLGN = febioheat
 
 # This needs to be set in order to find the febio .h files.
-# FEBINC = $(HOME)/FEBio2
+FEBINC = $(HOME)/Projects/FEBio
 # Comment out the previous line and uncomment the next line if you are using the sdk on Linux.
 # FEBINC = $(HOME)/FEBio2
 # Or uncomment the next line if you are using OSX.
-FEBINC = /Applications/FEBio2.8.2/sdk/include
+# FEBINC = /Applications/FEBio2.8.2/sdk/include
 
 # This needs to be set in order to find the febio library files.
-# FEBLIB = $(HOME)/FEBio2/build/lib
+FEBLIB = $(HOME)/Projects/FEBio/cbuild
 # Comment out the previous line and uncomment the next line if you are using the sdk on Linux.
 # FEBLIB = $(HOME)/FEBio2/build/lib
 # Or uncomment the next line if you are using OSX.
-FEBLIB = /Applications/FEBio2.8.2/sdk/lib
+# FEBLIB = /Applications/FEBio2.8.2/sdk/lib
 
 lnx64: PLAT = lnx64
 lnx64d: PLAT = lnx64d
