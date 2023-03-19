@@ -391,3 +391,6 @@ VS2019/
 vs*/
 
 cmbuild
+
+.envrc
+.terraform
