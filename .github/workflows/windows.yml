@@ -40,7 +40,7 @@ jobs:
           mode: start
           key-pair: ${{ env.KEY_PAIR }}
           os: ${{ env.OS }}
-          github-token: ${{ secrets.GH_TOKEN_FEBIOHEAT }}
+          github-token: ${{ secrets.GH_TOKEN }}
           ec2-image-id: ${{ env.AMI_ID}}
           ec2-instance-type: ${{ env.AWS_INSTANCE_TYPE }}
           subnet-id: ${{ env.AWS_SUBNET_ID }}
@@ -65,7 +65,7 @@ jobs:
         run: |
           ci/windows/febio-sdk.ps1
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN_FEBIOHEAT }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           ARTIFACT_NAME: febio4-sdk-Windows-X64
       - name: Build
         run: |
@@ -123,6 +123,6 @@ jobs:
           mode: stop
           os: ${{ env.OS }}
           wait-for-deregistry-timeout: 5
-          github-token: ${{ secrets.GH_TOKEN_FEBIOHEAT }}
+          github-token: ${{ secrets.GH_TOKEN }}
           label: ${{ needs.start-runner.outputs.label }}
           ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}
