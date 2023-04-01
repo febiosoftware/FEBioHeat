@@ -1,16 +1,11 @@
+variable "username" {
+  type    = string
+  default = "tf-gh-actions-febio-heat"
+}
+
 variable "repo_name" {
   type    = string
   default = "FEBioHeat"
-}
-
-variable "aws_access_key_id" {
-  type      = string
-  sensitive = true
-}
-
-variable "aws_secret_access_key" {
-  type      = string
-  sensitive = true
 }
 
 variable "gh_token" {
@@ -31,4 +26,9 @@ variable "repo_user" {
 variable "repo_key" {
   type      = string
   sensitive = true
+}
+
+variable "repo_action_permissions" {
+  type    = list(string)
+  default = ["aws/*", "tundranerd/*"]
 }
