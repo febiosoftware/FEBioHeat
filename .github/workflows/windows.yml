@@ -83,9 +83,9 @@ jobs:
           ci/common/windows/get-febio-sdk.bat
         env:
           OS: ${{runner.os}}
-          FEBIO_SDK_BRANCH: ${{ github.ref_name}}
+          FEBIO_SDK_BRANCH: ci/develop
           PACKAGE_NAME: febio
-          PACKAGE: febio-sdk-v4.1-76-g66fdd5b39.tar.gz
+          PACKAGE: febio-sdk-v4.1-82-g3771c50d4.tar.gz
           BUCKET: febio-packages
       - name: Build
         run: |
@@ -140,7 +140,7 @@ jobs:
         with:
           name: febiostudio2-Windows-${{runner.arch}}
           path: |
-            artifacts/febio-studio
+            artifacts/febioheat
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -155,7 +155,7 @@ jobs:
           PACKAGE_NAME: febioheat
           GIT_TAG: ${{ needs.start-runner.outputs.git_describe }}
         run: |
-          ci/common/linux/publish-to-s3.sh artifacts/febio-studio
+          ci/common/linux/publish-to-s3.sh artifacts/febioheat
   stop-runner:
     name: Stop self-hosted EC2 runner
     needs:
