@@ -70,7 +70,7 @@ jobs:
           submodules: 'true'
       - id: git-describe
         run: |
-          echo "git_describe=$(git describe --tags)" >> "$GITHUB_OUTPUT"
+          echo "git_describe=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -155,7 +155,7 @@ jobs:
           PACKAGE_NAME: febioheat
           GIT_TAG: ${{ needs.build.outputs.git_describe }}
         run: |
-          ci/linux/publish-to-s3.sh artifacts/febioheat
+          ci/common/linux/publish-to-s3.sh artifacts/febioheat
   stop-runner:
     name: Stop self-hosted EC2 runner
     needs:
