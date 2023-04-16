@@ -96,6 +96,39 @@ jobs:
           name: febioheat-${{runner.os}}-${{runner.arch}}
           path: |
             cmbuild/Release
+  publish-to-s3:
+    name: Publish to S3
+    needs:
+      - start-runner
+      - build
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - name: Download febioheat
+        uses: actions/download-artifact@v3
+        with:
+          name: febioheat-Windows-${{runner.arch}}
+          path: |
+            artifacts/febioheat
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Publish to S3
+        env:
+          BUCKET_NAME: febio-packages
+          OS: Windows
+          REF_NAME: ${{ github.ref_name}}
+          PACKAGE_NAME: febioheat
+          GIT_TAG: ${{ needs.start-runner.outputs.git_describe }}
+        run: |
+          ci/common/linux/publish-to-s3.sh artifacts/febioheat
   repo-artifacts:
    name: Upload artifacts to repo
    needs:
@@ -123,39 +156,6 @@ jobs:
      - name: Make Dev Release
        run: |
          ssh repo "python3 update2/FEBioStudio2Dev/makeDevRelease.py -w"
-  publish-to-s3:
-    name: Publish to S3
-    needs:
-      - start-runner
-      - build
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          submodules: 'true'
-      - name: Download febio-studio
-        uses: actions/download-artifact@v3
-        with:
-          name: febiostudio2-Windows-${{runner.arch}}
-          path: |
-            artifacts/febioheat
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-      - name: Publish to S3
-        env:
-          BUCKET_NAME: febio-packages
-          OS: Windows
-          REF_NAME: ${{ github.ref_name}}
-          PACKAGE_NAME: febioheat
-          GIT_TAG: ${{ needs.start-runner.outputs.git_describe }}
-        run: |
-          ci/common/linux/publish-to-s3.sh artifacts/febioheat
   stop-runner:
     name: Stop self-hosted EC2 runner
     needs:
