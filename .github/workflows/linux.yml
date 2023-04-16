@@ -15,7 +15,7 @@ env:
   AWS_REGION: us-east-1
   AWS_SUBNET_ID: subnet-064f21b53fc72cf44
   AWS_SG_ID: sg-0ca7912782cf1538b
-  AMI_ID: ami-019d68322b584b04a
+  AMI_ID: ami-0b0e38d12eb5ff011
   AWS_INSTANCE_TYPE: c5a.large
   AWS_AVAILABILITY_ZONE: us-east-1b
   OS: linux
@@ -71,11 +71,21 @@ jobs:
       - id: git-describe
         run: |
           echo "git_describe=$(git describe --tags)" >> "$GITHUB_OUTPUT"
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
       - name: Fetch latest febio-sdk
         run: |
           ci/common/linux/get-febio-sdk.sh
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          OS: ${{runner.os}}
+          FEBIO_SDK_BRANCH: ${{ github.ref_name}}
+          PACKAGE_NAME: febio
+          PACKAGE: febio-sdk-v4.1-76-g66fdd5b39.tar.gz
+          BUCKET: febio-packages
       - name: Build
         run: |
           ci/linux/build.sh
