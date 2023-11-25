@@ -1,2 +1,3 @@
 #! /bin/bash
-scp cmbuild/Release/* repo:~/update2/FEBioStudio2Dev/Windows/stage/bin
+ls -l cmbuild/lib/
+scp cmbuild/lib/* repo:~/update2/FEBioStudio2Dev/macOS/stage/FEBioStudio.app/Contents/Frameworks
