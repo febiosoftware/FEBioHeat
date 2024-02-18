@@ -1,14 +1,12 @@
 on:
-  #schedule:
-  #  - cron: '00 7 * * *' #0630 UTC kick off full build and regression
   push:
-    branches: [ ci/* ]
-
+    branches:
+      - 'ci/develop'
 jobs:
   call_workflow:
     uses: febiosoftware/febio-workflows/.github/workflows/windows-reusable.yml@develop
     with:
-      aws-ami-id: ami-0a29d4b08307a935f
+      aws-ami-id: ami-0b18c665dbe9efa75
       aws-sg-id: sg-0ca7912782cf1538b
       aws-instance-type: c5a.8xlarge
       package-name: febioheat
