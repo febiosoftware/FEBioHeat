@@ -1,5 +1,6 @@
 on:
   push:
+    workflow_dispatch:
     branches:
       - 'ci/develop'
 jobs:
@@ -14,6 +15,6 @@ jobs:
       sdk-config: |
         {
           "sdk_path": "ci/develop",
-          "version": "v4.3",
+          "version": "v4.5",
         }
     secrets: inherit
