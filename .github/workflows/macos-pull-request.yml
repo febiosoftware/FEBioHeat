@@ -16,9 +16,4 @@ jobs:
     with:
       package-name: febioheat
       requires-sdk: true
-      sdk-config: |
-        {
-          "sdk_path": "develop",
-          "version": "v4.6",
-        }
     secrets: inherit
