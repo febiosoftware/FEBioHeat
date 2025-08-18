@@ -9,7 +9,7 @@ cd %SCRIPTDIR%\..\..\
 
 cmake -L . -B cmbuild ^
   -DFEBio_SDK=%STARTDIR%\febio4-sdk
-)
+
 cd cmbuild
 msbuild /P:Configuration=Release /P:WarningLevel=0 /m:%PROC% ALL_BUILD.vcxproj
 cd %STARTDIR%
