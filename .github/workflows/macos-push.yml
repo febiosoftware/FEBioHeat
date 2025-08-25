@@ -11,8 +11,10 @@ permissions:
 
 jobs:
   call_workflow:
-    uses: febiosoftware/febio-workflows/.github/workflows/macos-reusable-push.yml@develop
+    uses: febiosoftware/febio-workflows/.github/workflows/macos-reusable.yml@develop
     with:
       package-name: febioheat
       requires-sdk: true
+      plugin: true
+      publish: true
     secrets: inherit
