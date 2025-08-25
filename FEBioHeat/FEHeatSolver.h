@@ -21,6 +21,8 @@ public:
 
 protected: // from FELinearSolver
 
+	void ForceVector(FEGlobalVector& R) override;
+
 	//! calculate the stiffness matrix
 	bool StiffnessMatrix(FELinearSystem& LS) override; 
 

@@ -72,6 +72,25 @@ bool FEHeatSolver::Init()
 	return true;
 }
 
+void FEHeatSolver::ForceVector(FEGlobalVector& R)
+{
+	FELinearSolver::ForceVector(R);
+
+	FEModel& fem = *GetFEModel();
+	FEAnalysis* pstep = fem.GetCurrentStep();
+	bool btransient = (pstep->m_nanalysis == FEHeatAnalysis::TRANSIENT);
+
+	if (btransient)
+	{
+		// for a dynamic analysis add the capacitance load
+		for (int i = 0; i < pstep->Domains(); ++i)
+		{
+			FEHeatDomain& bd = dynamic_cast<FEHeatDomain&>(*pstep->Domain(i));
+			bd.CapacitanceLoad(R);
+		}
+	}
+}
+
 //-----------------------------------------------------------------------------
 //! Calculate the global stiffness matrix. This function simply calls 
 //! HeatStiffnessMatrix() for each domain which will calculate the
@@ -99,7 +118,7 @@ bool FEHeatSolver::StiffnessMatrix(FELinearSystem& LS)
 		// for a dynamic analysis add the capacitance matrix
 		if (btransient)
 		{
-			bd.CapacitanceMatrix(LS, tp.timeIncrement);
+			bd.CapacitanceMatrix(LS);
 		}
 	}
 

@@ -1,11 +1,11 @@
 #include "FEHeatSolidDomain.h"
-#include "FECore/FEModel.h"
+#include <FECore/FEModel.h>
 #include <FECore/Integrate.h>
 using namespace std::placeholders;
 
 //-----------------------------------------------------------------------------
 //! constructor
-FEHeatSolidDomain::FEHeatSolidDomain(FEModel* pfem) : FESolidDomain(pfem), FEHeatDomain(pfem), m_dof(pfem)
+FEHeatSolidDomain::FEHeatSolidDomain(FEModel* pfem) : FESolidDomain(pfem), m_dof(pfem)
 {
 	m_pMat = 0;
 
@@ -30,49 +30,10 @@ void FEHeatSolidDomain::ConductionMatrix(FELinearSystem& ls)
 
 //-----------------------------------------------------------------------------
 // Calculate the capacitance matrix
-void FEHeatSolidDomain::CapacitanceMatrix(FELinearSystem& ls, double dt)
+void FEHeatSolidDomain::CapacitanceMatrix(FELinearSystem& ls)
 {
-	vector<int> lm;
-	vector<double> fe;
-
-	FEDofList& dofs = m_dof;
-	assert(dofs.Size()==1);
-	int dofT = dofs[0];
-
-	// get the mesh
-	FEMesh& mesh = *GetMesh();
-
-	// loop over all elements in domain
-	for (int i=0; i<(int) m_Elem.size(); ++i)
-	{
-		FESolidElement& el = m_Elem[i];
-		int ne = el.Nodes();
-
-		// element capacitance matrix
-		FEElementMatrix kc(ne, ne);
-		ElementCapacitance(el, kc, dt);
-
-		// set up the LM matrix
-		UnpackLM(el, lm);
-		kc.SetIndices(lm);
-		kc.SetNodes(el.m_node);
-
-		// assemble into global matrix
-		ls.Assemble(kc);
-
-		// we also need to assemble this in the right-hand side
-		fe.resize(ne, 0.0);
-		for (int i = 0; i<ne; ++i)
-		{
-			fe[i] = mesh.Node(el.m_node[i]).get(dofT);
-		}
-
-		// multiply with me
-		fe = kc*fe;
-
-		// assemble this vector to the right-hand side
-		ls.AssembleRHS(lm, fe);
-	}
+	auto fp = bind(&FEHeatSolidDomain::ElementCapacitance, this, _1, _2);
+	AssembleSolidDomain(*this, ls, fp);
 }
 
 //-----------------------------------------------------------------------------
@@ -89,6 +50,40 @@ void FEHeatSolidDomain::HeatSource(FEGlobalVector& R, FEHeatSource& hs)
 		ElementHeatSource(hs, el, fe);
 		UnpackLM(el, lm);
 		R.Assemble(el.m_node, lm, fe);
+	}
+}
+
+void FEHeatSolidDomain::CapacitanceLoad(FEGlobalVector& R)
+{
+	auto fp = bind(&FEHeatSolidDomain::ElementCapacitanceLoad, this, _1, _2);
+	AssembleSolidDomain(*this, R, fp);
+}
+
+void FEHeatSolidDomain::ElementCapacitanceLoad(FESolidElement& el, vector<double>& fe)
+{
+	FETimeInfo& ti = GetFEModel()->GetTime();
+	double dt = ti.timeIncrement;
+
+	double c = m_pMat->Capacitance();
+	double d = m_pMat->Density();
+	double alpha = c * d / dt;
+
+	zero(fe);
+	double* w = el.GaussWeights();
+	int ne = el.Nodes();
+	int ni = el.GaussPoints();
+	for (int n = 0; n < ni; ++n)
+	{
+		FEMaterialPoint& mp = *el.GetMaterialPoint(n);
+		FEHeatMaterialPoint* pt = (mp.ExtractData<FEHeatMaterialPoint>());
+
+		double Ti = pt->m_T;
+		double* H = el.H(n);
+		double J = detJt(el, n);
+		for (int i = 0; i < ne; ++i)
+		{
+			fe[i] += alpha * H[i] * Ti * J * w[n];
+		}
 	}
 }
 
@@ -129,8 +124,11 @@ void FEHeatSolidDomain::ElementConduction(FESolidElement& el, matrix& ke)
 }
 
 //-----------------------------------------------------------------------------
-void FEHeatSolidDomain::ElementCapacitance(FESolidElement &el, matrix &ke, double dt)
+void FEHeatSolidDomain::ElementCapacitance(FESolidElement &el, matrix &ke)
 {
+	FETimeInfo& ti = GetFEModel()->GetTime();
+	double dt = ti.timeIncrement;
+
 	// zero stiffness matrix
 	ke.zero();
 
@@ -167,6 +165,8 @@ void FEHeatSolidDomain::Update(const FETimeInfo& tp)
 			FEMaterialPoint& mp = *el.GetMaterialPoint(n);
 			FEHeatMaterialPoint* pt = (mp.ExtractData<FEHeatMaterialPoint>());
 			assert(pt);
+
+			pt->m_T = el.Evaluate(T, n);
 
 			vec3d gradT = gradient(el, T, n);
 			mat3ds D = m_pMat->Conductivity(mp);

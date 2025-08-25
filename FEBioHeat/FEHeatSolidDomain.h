@@ -11,16 +11,12 @@ class FEModel;
 class FEHeatDomain
 {
 public:
-	FEHeatDomain(FEModel* pfem) : m_pfem(pfem) {}
+	FEHeatDomain() {}
 	virtual ~FEHeatDomain(){}
 	virtual void ConductionMatrix (FELinearSystem& ls) = 0;
-	virtual void CapacitanceMatrix(FELinearSystem& ls, double dt) = 0;
+	virtual void CapacitanceMatrix(FELinearSystem& ls) = 0;
 	virtual void HeatSource(FEGlobalVector& R, FEHeatSource& hs) = 0;
-
-	FEModel* GetFEModel() { return m_pfem; }
-
-protected:
-	FEModel* m_pfem;
+	virtual void CapacitanceLoad(FEGlobalVector& R) = 0;
 };
 
 //-----------------------------------------------------------------------------
@@ -42,28 +38,33 @@ public:
 	//! Update state data
 	void Update(const FETimeInfo& tp) override;
 
+	const FEDofList& GetDOFList() const { return m_dof; }
+
 public: // overloaded from FEHeatDomain
 
 	//! Calculate the conduction stiffness 
 	void ConductionMatrix(FELinearSystem& ls) override;
 
 	//! Calculate capacitance stiffness matrix
-	void CapacitanceMatrix(FELinearSystem& ls, double dt) override;
+	void CapacitanceMatrix(FELinearSystem& ls) override;
 
 	// evaluate heat source
 	void HeatSource(FEGlobalVector& R, FEHeatSource& hs) override;
+
+	// evaluate capacitance load
+	void CapacitanceLoad(FEGlobalVector& R) override;
 
 protected:
 	//! calculate the conductive element stiffness matrix
 	void ElementConduction(FESolidElement& el, matrix& ke);
 
 	//! calculate the capacitance element stiffness matrix
-	void ElementCapacitance(FESolidElement& el, matrix& ke, double dt);
+	void ElementCapacitance(FESolidElement& el, matrix& ke);
 
 	//! calculate element contribution to heat source term
 	void ElementHeatSource(FEHeatSource& hs, FESolidElement& el, vector<double>& fe);
 
-	const FEDofList& GetDOFList() const { return m_dof; }
+	void ElementCapacitanceLoad(FESolidElement& el, vector<double>& fe);
 
 protected:
 	FEHeatTransferMaterial*	m_pMat;

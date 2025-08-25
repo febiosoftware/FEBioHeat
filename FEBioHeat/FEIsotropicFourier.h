@@ -1,12 +1,11 @@
 #pragma once
 #include "FEHeatTransferMaterial.h"
 
-//-----------------------------------------------------------------------------
-// Isotropic Fourer heat-transfer material
+// Isotropic Fourier heat-transfer material
 class FEIsotropicFourier : public FEHeatTransferMaterial
 {
 public:
-	FEIsotropicFourier(FEModel* pfem) : FEHeatTransferMaterial(pfem) {}
+	FEIsotropicFourier(FEModel* pfem);
 
 public:
 	double	m_k;	//!< heat conductivity
