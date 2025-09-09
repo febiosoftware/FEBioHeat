@@ -7,8 +7,10 @@ SET SCRIPTDIR=%~dp0
 
 cd %SCRIPTDIR%\..\..\
 
+if not defined FEBIO_SDK set "FEBIO_SDK=%STARTDIR%\febio4-sdk"
+
 cmake -L . -B cmbuild ^
-  -DFEBio_SDK=%STARTDIR%\febio4-sdk
+  -DFEBio_SDK=%FEBIO_SDK%
 
 cd cmbuild
 msbuild /P:Configuration=Release /P:WarningLevel=0 /m:%PROC% ALL_BUILD.vcxproj
