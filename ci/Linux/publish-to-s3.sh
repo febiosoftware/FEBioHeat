@@ -1,3 +1,3 @@
 #! /bin/bash
 
-ci/common/linux/publish-to-s3.sh artifacts/febioheat
+ci/common/publish-to-s3.sh artifacts/febioheat
