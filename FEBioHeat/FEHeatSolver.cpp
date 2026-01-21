@@ -69,6 +69,9 @@ bool FEHeatSolver::Init()
 	}
 	assert(pstep->Domains() != 0);
 
+	// do an update to make sure that all initial conditions are applied
+	fem.Update();
+
 	return true;
 }
 
