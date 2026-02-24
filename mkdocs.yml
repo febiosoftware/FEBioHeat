@@ -1,0 +1,51 @@
+site_name: FEBioHeat
+site_description: Documentation site for FEBioHeat
+site_author: Steve Maas
+theme:
+  name: material
+  logo: figs/FEBioHeat.png
+  palette:
+    primary: indigo
+    accent: indigo
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+  features:
+    - navigation.tabs
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - toc.integrate
+    - content.external.links
+    - content.code.annotate
+    - content.code.copy
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - attr_list
+  - md_in_html  
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.blocks.caption
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra_javascript:
+  - js/mathjax_config.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Home: index.md
+  - Tutorials:
+      - Tutorial 1: febioheat_tutorial1.md
+  - User Manual: febioheat_user_manual.md
+  - Theory: febioheat_theory.md

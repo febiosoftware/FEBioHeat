@@ -5,5 +5,5 @@ FEBIO_SDK="$(realpath $FEBIO_SDK)"
 
 run_cmake() {
 	cmake -L . -B cmbuild \
-		-DFEBio_SDK=$FEBIO_SDK
+		-DCMAKE_PREFIX_PATH=$FEBIO_SDK
 }

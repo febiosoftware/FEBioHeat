@@ -1,3 +1,4 @@
+#include "version.h"
 #include <FECore/sdk.h>
 #include "FEIsotropicFourier.h"
 #include "FEPlotHeatFlux.h"
@@ -34,9 +35,9 @@ FECORE_PLUGIN int GetSDKVersion()
 
 FECORE_PLUGIN void GetPluginVersion(int& major, int& minor, int& patch)
 {
-	major = 2;
-	minor = 0;
-	patch = 0;
+	major = VERSION;
+	minor = SUBVERSION;
+	patch = SUBSUBVERSION;
 }
 
 FECORE_PLUGIN void PluginInitialize(FECoreKernel& fecore)
